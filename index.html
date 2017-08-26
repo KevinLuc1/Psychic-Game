@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trigger Random</title>
+
+  <!-- Added link to the jQuery Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+	<div id="game">
+		<h1>The Psychic Game</h1>
+		<p>Guess what letter I'm thinking of</p>
+		<p>Wins: <span id="winCounter"></span> </p>
+		<p>Losses: <span id="lossCounter"> </span> </p>
+		<p>Guesses left: <span id="guessesLeftcounter"></span></p>
+		<p>Letters guessed: <span id="wrongGuess"></span></p>
+	</div>
+
+
+	<script type="text/javascript">
+		// all possible computer choices //
+		var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+		var wins = 0;
+		var losses = 0;
+		var guessesLeft = 9;
+		var wrongLetters = [];
+
+
+
+		function startGame () {
+			letterSelected = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+			console.log(letterSelected)
+
+
+			//reset guessesLeft
+			guessesLeft = 9
+			console.log(guessesLeft)
+
+
+			// changing the html to reflect wins/losses/guessesleft/wrongletters
+			$("#winCounter").html(wins);
+			$("#lossCounter").html(losses);
+			$("#guessesLeftcounter").html(guessesLeft);
+			$("#wrongGuess").html(wrongLetters);
+
+
+
+		}
+		startGame ();
+
+		function checkLetters(letter) {
+			
+			
+			var isLetterCorrect = false;
+
+			if (letterSelected == letter) {
+				isLetterCorrect = true;
+				console.log("found the correct letter")
+			}
+			else {
+				wrongLetters.push(letter);
+				guessesLeft--
+			}
+
+		}
+
+		function checking() {
+			console.log("Win count: " + wins + " | Loss Count: " + losses + " | Guesses Left: " + guessesLeft)
+			$("#winCounter").html(wins);
+			$("#lossCounter").html(losses);
+			$("#guessesLeftcounter").html(guessesLeft);
+			$("#wrongGuess").html(wrongLetters);
+			
+		}
+
+		
+
+
+		document.onkeyup = function(event){
+			var letterKeySelected = event.key;
+			console.log(letterKeySelected);
+			checkLetters(letterKeySelected);
+			checking();
+			if (letterSelected === letterKeySelected){
+				wins++;
+				alert("you won")
+				guessesLeft = 9;
+				letterSelected = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+				console.log(letterSelected)
+			}
+			if (guessesLeft === 0) {
+				losses++;
+				alert("you lose");
+				$("#wrongGuess").empty();
+				guessesLeft = 9
+				letterSelected = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+				console.log(letterSelected)
+				wrongLetters = [];
+			}
+
+			
+		}
+
+		//somewhere i will need to make once guesses = 0, 
+
+
+
+
+
+
+
+	</script>
+
+
+
+
+</body>
+</html>
